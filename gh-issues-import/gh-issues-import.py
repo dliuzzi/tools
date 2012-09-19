@@ -17,7 +17,7 @@ def get_milestones(url):
         response = urllib2.urlopen(req)
         result = response.read()
     except urllib2.HTTPError, error:
-        sys.exit(error.read())
+        sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
     milestones = json.load(StringIO(result))
     return milestones
@@ -30,7 +30,7 @@ def get_labels(url):
         response = urllib2.urlopen(req)
         result = response.read()
     except urllib2.HTTPError, error:
-        sys.exit(error.read())
+        sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
     labels = json.load(StringIO(result))
     return labels
@@ -43,7 +43,7 @@ def get_issues(url):
         response = urllib2.urlopen(req)
         result = response.read()
     except urllib2.HTTPError, error:
-        sys.exit(error.read())
+        sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
     issues = json.load(StringIO(result))
     return issues
@@ -59,7 +59,7 @@ def get_comments_on_issue(issue):
             response = urllib2.urlopen(req)
             result = response.read()
         except urllib2.HTTPError, error:
-            sys.exit(error.read())
+            sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
         comments = json.load(StringIO(result))
         return comments
@@ -83,7 +83,7 @@ def import_milestones(milestones):
             res = urllib2.urlopen(req)
             data = res.read()
         except urllib2.HTTPError, error:
-            sys.exit(error.read())
+            sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
         res_milestone = json.load(StringIO(data))
         print "Successfully created milestone %s" % res_milestone["title"]
@@ -104,7 +104,7 @@ def import_labels(labels):
             res = urllib2.urlopen(req)
             data = res.read()
         except urllib2.HTTPError, error:
-            sys.exit(error.read())
+            sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
         res_label = json.load(StringIO(data))
         print "Successfully created label %s" % res_label["name"]
@@ -156,7 +156,7 @@ def import_issues(issues, dst_milestones, dst_labels):
             res = urllib2.urlopen(req)
             data = res.read()
         except urllib2.HTTPError, error:
-            sys.exit(error.read())
+            sys.exit(json.dumps(json.load(error), sort_keys=True, indent=4))
 
         res_issue = json.load(StringIO(data))
         print "Successfully created issue %s" % res_issue["title"]
