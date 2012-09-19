@@ -2,13 +2,7 @@ import urllib2
 import json
 from StringIO import StringIO
 import base64
-
-#==== configurations =======
-username = "user@example.com"
-password = "naked_password"
-src_repo = "octocat/Hello-World"
-dst_repo = "helloworld-inc/Hello-World"
-#==== end of configurations ===
+from config import *
 
 server = "api.github.com"
 src_url = "https://%s/repos/%s" % (server, src_repo)

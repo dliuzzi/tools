@@ -1,0 +1,4 @@
+username = "user@example.com"
+password = "naked_password"
+src_repo = "octocat/Hello-World"
+dst_repo = "helloworld-inc/Hello-World"
