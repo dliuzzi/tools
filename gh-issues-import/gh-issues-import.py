@@ -1,3 +1,4 @@
+import sys
 import urllib2
 import json
 from StringIO import StringIO
@@ -11,24 +12,39 @@ dst_url = "https://%s/repos/%s" % (server, dst_repo)
 def get_milestones(url):
     req = urllib2.Request("%s/milestones?state=open" % url)
     req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
-    response = urllib2.urlopen(req)
-    result = response.read()
+
+    try:
+        response = urllib2.urlopen(req)
+        result = response.read()
+    except urllib2.HTTPError, error:
+        sys.exit(error.read())
+
     milestones = json.load(StringIO(result))
     return milestones
 
 def get_labels(url):
     req = urllib2.Request("%s/labels" % url)
     req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
-    response = urllib2.urlopen(req)
-    result = response.read()
+
+    try:
+        response = urllib2.urlopen(req)
+        result = response.read()
+    except urllib2.HTTPError, error:
+        sys.exit(error.read())
+
     labels = json.load(StringIO(result))
     return labels
 
 def get_issues(url):
     req = urllib2.Request("%s/issues?direction=asc" % url)
     req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
-    response = urllib2.urlopen(req)
-    result = response.read()
+
+    try:
+        response = urllib2.urlopen(req)
+        result = response.read()
+    except urllib2.HTTPError, error:
+        sys.exit(error.read())
+
     issues = json.load(StringIO(result))
     return issues
 
@@ -38,8 +54,13 @@ def get_comments_on_issue(issue):
       and issue["comments"] != 0:
         req = urllib2.Request("%s/comments" % issue["url"])
         req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
-        response = urllib2.urlopen(req)
-        result = response.read()
+
+        try:
+            response = urllib2.urlopen(req)
+            result = response.read()
+        except urllib2.HTTPError, error:
+            sys.exit(error.read())
+
         comments = json.load(StringIO(result))
         return comments
     else :
@@ -57,9 +78,13 @@ def import_milestones(milestones):
         req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
         req.add_header("Content-Type", "application/json")
         req.add_header("Accept", "application/json")
-        res = urllib2.urlopen(req)
-        
-        data = res.read()
+
+        try:
+            res = urllib2.urlopen(req)
+            data = res.read()
+        except urllib2.HTTPError, error:
+            sys.exit(error.read())
+
         res_milestone = json.load(StringIO(data))
         print "Successfully created milestone %s" % res_milestone["title"]
 
@@ -74,9 +99,13 @@ def import_labels(labels):
         req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
         req.add_header("Content-Type", "application/json")
         req.add_header("Accept", "application/json")
-        res = urllib2.urlopen(req)
 
-        data = res.read()
+        try:
+            res = urllib2.urlopen(req)
+            data = res.read()
+        except urllib2.HTTPError, error:
+            sys.exit(error.read())
+
         res_label = json.load(StringIO(data))
         print "Successfully created label %s" % res_label["name"]
 
@@ -122,9 +151,13 @@ def import_issues(issues, dst_milestones, dst_labels):
         req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
         req.add_header("Content-Type", "application/json")
         req.add_header("Accept", "application/json")
-        res = urllib2.urlopen(req)
 
-        data = res.read()
+        try:
+            res = urllib2.urlopen(req)
+            data = res.read()
+        except urllib2.HTTPError, error:
+            sys.exit(error.read())
+
         res_issue = json.load(StringIO(data))
         print "Successfully created issue %s" % res_issue["title"]
 
