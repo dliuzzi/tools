@@ -25,7 +25,7 @@ def get_labels(url):
     return labels
 
 def get_issues(url):
-    req = urllib2.Request("%s/issues" % url)
+    req = urllib2.Request("%s/issues?direction=asc" % url)
     req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
     response = urllib2.urlopen(req)
     result = response.read()
