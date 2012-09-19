@@ -9,19 +9,25 @@ src_url = "https://%s/repos/%s" % (server, src_repo)
 dst_url = "https://%s/repos/%s" % (server, dst_repo)
 
 def get_milestones(url):
-    response = urllib2.urlopen("%s/milestones?state=open" % url)
+    req = urllib2.Request("%s/milestones?state=open" % url)
+    req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
+    response = urllib2.urlopen(req)
     result = response.read()
     milestones = json.load(StringIO(result))
     return milestones
 
 def get_labels(url):
-    response = urllib2.urlopen("%s/labels" % url)
+    req = urllib2.Request("%s/labels" % url)
+    req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
+    response = urllib2.urlopen(req)
     result = response.read()
     labels = json.load(StringIO(result))
     return labels
 
 def get_issues(url):
-    response = urllib2.urlopen("%s/issues" % url)
+    req = urllib2.Request("%s/issues" % url)
+    req.add_header("Authorization", "Basic " + base64.urlsafe_b64encode("%s:%s" % (username, password)))
+    response = urllib2.urlopen(req)
     result = response.read()
     issues = json.load(StringIO(result))
     return issues
